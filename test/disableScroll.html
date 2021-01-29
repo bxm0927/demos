@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .disable-scroll {
+        overflow: hidden !important;
+      }
+      p {
+        line-height: 200px;
+        text-align: center;
+      }
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+      .content {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        z-index: 2;
+        max-height: 50%;
+        padding: 30px 50px;
+        overflow-y: auto;
+        background-color: #fff;
+        transform: translate3d(-50%, -50%, 0);
+        transition: transform 0.3s;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="popup1">弹窗内容不能滚动</button>
+      <button @click="popup2">弹窗内容可以滚动</button>
+
+      <p>Lorem, ipsum dolor.</p>
+      <p>Lorem ipsum dolor sit.</p>
+      <p>Lorem ipsum dolor sit amet.</p>
+      <p>Lorem, ipsum dolor.</p>
+      <p>Lorem ipsum dolor sit.</p>
+      <p>Lorem ipsum dolor sit amet.</p>
+      <p>Lorem, ipsum dolor.</p>
+      <p>Lorem ipsum dolor sit.</p>
+      <p>Lorem ipsum dolor sit amet.</p>
+      <p>Lorem, ipsum dolor.</p>
+      <p>Lorem ipsum dolor sit.</p>
+      <p>Lorem ipsum dolor sit amet.</p>
+      <p>Lorem, ipsum dolor.</p>
+      <p>Lorem ipsum dolor sit.</p>
+      <p>Lorem ipsum dolor sit amet.</p>
+
+      <div v-if="showPopup1" class="popup">
+        <div class="overlay" @click="closePopup1"></div>
+        <div class="content">
+          <p>Lorem ipsum dolor sit ame elit. Ad, nisi!</p>
+        </div>
+      </div>
+
+      <div v-if="showPopup2" class="popup">
+        <div class="overlay" @click="closePopup2"></div>
+        <div class="content">
+          <p>Lorem ipsum dolor sit amet, elit.</p>
+          <p>Lorem ipsum dolor sit amet elit. Ad, nisi!</p>
+          <p>Lorem ipsum dolor sit amet, elit.</p>
+          <p>Lorem ipsum dolor sit amet elit. Ad, nisi!</p>
+          <p>Lorem ipsum dolor sit amet, elit.</p>
+          <p>Lorem ipsum dolor sit amet elit. Ad, nisi!</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+    <script>
+      const vm = new Vue({
+        el: '#app',
+        data() {
+          return {
+            showPopup1: false,
+            showPopup2: false,
+          }
+        },
+        methods: {
+          popup1() {
+            this.showPopup1 = true
+            // document.body.style.overflow = 'hidden'
+            // or
+            // classList not supported for IE9
+            document.body.classList.add('disable-scroll')
+          },
+          popup2() {
+            this.showPopup2 = true
+            document.body.classList.add('disable-scroll')
+          },
+          closePopup1() {
+            this.showPopup1 = false
+            // document.body.style.overflow = ''
+            // or
+            document.body.classList.remove('disable-scroll')
+          },
+          closePopup2() {
+            this.showPopup2 = false
+            document.body.classList.remove('disable-scroll')
+          },
+        },
+      })
+    </script>
+  </body>
+</html>
