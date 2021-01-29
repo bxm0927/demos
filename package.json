@@ -1,0 +1,30 @@
+{
+  "name": "demos",
+  "version": "1.0.0",
+  "description": "一些代码片段演示",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bxm0927/demos.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bxm0927/demos/issues"
+  },
+  "homepage": "https://github.com/bxm0927/demos#readme",
+  "devDependencies": {
+    "prettier": "^2.2.1",
+    "stylelint": "^13.9.0",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.1.0"
+  }
+}
