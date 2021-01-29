@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .canvas {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        border: 1px solid #333;
+      }
+      .video {
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" class="canvas" width="440" height="600">
+      Your browser does not support the Canvas API, Please upgrade your browser.
+    </canvas>
+
+    <video id="video" class="video" hidden autoplay src="../video/assets/test.mp4"></video>
+
+    <script>
+      const myCanvas = document.getElementById('myCanvas')
+      const ctx = myCanvas.getContext('2d')
+
+      // 绘制图片
+      const img = new Image()
+      img.src = 'https://www.w3school.com.cn/i/eg_tulip.jpg'
+      img.onload = () => ctx.drawImage(img, 20, 20)
+
+      // 绘制视频
+      let timer = null
+      const video = document.getElementById('video')
+      video.addEventListener('play', () => {
+        timer = setInterval(() => {
+          ctx.drawImage(video, 20, 300, 400, 266)
+        }, 20)
+      })
+      video.addEventListener('pause', () => clearInterval(timer))
+      video.addEventListener('ended', () => clearInterval(timer))
+    </script>
+  </body>
+</html>

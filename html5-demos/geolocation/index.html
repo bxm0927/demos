@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      .map {
+        width: 600px;
+        height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map" class="map"></div>
+
+    <script
+      type="text/javascript"
+      src="https://api.map.baidu.com/api?v=2.0&ak=EA9ec710bfc7388ef6c86c656ffef281"
+    ></script>
+    <script>
+      const map = new BMap.Map('map')
+      const centerPoint = new BMap.Point(116.404, 39.915)
+      map.centerAndZoom(centerPoint, 11)
+
+      /**
+       * 获取用户地理位置信息 (经纬度)
+       */
+      const getPosition = (successCallback, errorCallback) => {
+        if (!navigator.geolocation) {
+          console.log('Geolocation is not supported by this browser.')
+          return
+        }
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
+      }
+
+      // 成功得到位置信息时的回调函数
+      function successCallback(position) {
+        console.dir(position)
+        const { longitude, latitude } = position.coords
+        const newCenterPoint = new BMap.Point(longitude, latitude)
+        const marker = new BMap.Marker(newCenterPoint)
+
+        map.addOverlay(marker)
+        map.setCenter(newCenterPoint)
+      }
+
+      // 获取位置信息失败时的回调函数
+      function errorCallback(error) {
+        console.log('error: ', error)
+        const { code, message } = error
+        switch (code) {
+          case error.PERMISSION_DENIED:
+            console.warn(message || 'User denied the request for Geolocation.')
+            break
+          case error.POSITION_UNAVAILABLE:
+            console.warn(message || 'Location information is unavailable.')
+            break
+          case error.TIMEOUT:
+            console.warn(message || 'The request to get user location timed out.')
+            break
+          default:
+            console.warn(message || 'An unknown error occurred.')
+            break
+        }
+      }
+
+      getPosition(successCallback, errorCallback)
+
+      // // 另外，你还可以创建百度地理位置实例
+      // // 即：使用 Geolocation 代替 navigator.geolocation
+      // const geolocation = new BMap.Geolocation()
+      // geolocation.getCurrentPosition(function (e) {
+      //   if (this.getStatus() === BMAP_STATUS_SUCCESS) {
+      //     console.log(this.getStatus())
+      //     return
+      //   }
+      //   // 经度 e.point.lng
+      //   // 纬度 e.point.lat
+      // })
+    </script>
+  </body>
+</html>

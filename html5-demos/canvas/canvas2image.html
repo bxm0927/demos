@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!--
+      download 属性介绍：
+      - 此属性指示浏览器下载 URL 而不是导航到它，因此将提示用户将其保存为本地文件。
+      - 如果该属性有值，则在保存提示中将其用作预填充的文件名（用户仍可以根据需要更改文件名）。
+      - 除了支持下载传统 URl 外，还支持下载 blob:url 和 data:url，以便可以下载 JavaScript 生成的内容
+    -->
+    <a class="download" download="文件名.png">下载图片</a>
+
+    <script type="module">
+      import { convertImageToCanvas, convertCanvasToImage } from './canvas.js'
+
+      const image = new Image()
+      image.src = './assets/baidu-logo.png'
+
+      // 这里要等 img load 之后再操作，不然拿不到图片宽高
+      image.onload = () => {
+        const canvas = convertImageToCanvas(image)
+        document.getElementsByTagName('body')[0].appendChild(canvas)
+
+        const newImage = convertCanvasToImage(canvas)
+        document.getElementsByTagName('body')[0].appendChild(newImage)
+
+        document.querySelector('.download').href = newImage.src
+      }
+    </script>
+  </body>
+</html>

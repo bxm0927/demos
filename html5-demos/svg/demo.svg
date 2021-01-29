@@ -1,0 +1,137 @@
+<?xml version="1.0" standalone="no"?>
+<!-- 上面代码用于声明一个 XML 文档，必须位于文档第一行，不然会报错 -->
+
+<!-- 引用 SVG DTD -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!--
+  SVG 代码以根元素 <svg> 开始，包括开始标签 <svg> 和结束标签 </svg> 。
+  width 和 height 属性可设置此 SVG 文档的宽度和高度。
+  version 属性可定义所使用的 SVG 版本。
+  xmlns 属性可定义 SVG 命名空间。
+-->
+<svg width="800px" height="650px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <!--
+    矩形
+    width 和 height 属性定义矩形的高度和宽度
+    x 和 y 属性定义矩形到浏览器窗口左侧和顶部的距离
+    rx 和 ry 属性定义圆角矩形
+    style 属性用来定义 CSS 属性
+      fill 属性定义矩形的填充颜色
+      fill-opacity 属性定义填充颜色透明度
+      stroke 属性定义矩形边框的颜色
+      stroke-width 属性定义矩形边框的宽度
+      stroke-opacity 属性定义笔触颜色的透明度
+      opacity 属性定义整个元素的透明度
+  -->
+  <rect
+    width="100"
+    height="100"
+    x="50"
+    y="50"
+    rx="20"
+    ry="20"
+    style="
+      fill: pink;
+      fill-opacity: 0.5;
+      stroke: black;
+      stroke-width: 5;
+      stroke-opacity: 0.9;
+      opacity: 0.9;
+    "
+  />
+
+  <!--
+    圆
+    cx 和 cy 属性定义圆心坐标，如果忽略这两个属性，那么圆心会被设置为 (0, 0)。
+    r 属性定义圆的半径。
+  -->
+  <circle cx="220" cy="100" r="40" stroke="black" stroke-width="2" fill="red" />
+
+  <!--
+    椭圆
+    椭圆与圆很相似。不同之处在于椭圆有不同的 x 和 y 半径，而圆的 x 和 y 半径是相同的。
+    cx 和 cy 属性定义圆点的 x 和 y 坐标
+    rx 和 ry 属性定义水平、垂直半径
+  -->
+  <ellipse
+    cx="400"
+    cy="100"
+    rx="100"
+    ry="40"
+    style="fill: red; stroke: rgb(0, 0, 100); stroke-width: 2"
+  />
+
+  <!--
+    直线
+    x1, y1 属性定义线条开始坐标
+    x2, y2 属性定义线条结束坐标
+  -->
+  <line x1="50" y1="300" x2="130" y2="200" style="stroke: rgb(99, 99, 99); stroke-width: 4" />
+
+  <!--
+    折线
+  -->
+  <polyline
+    points="180,200 220,200 220,240 260,240 260,280"
+    style="fill: white; stroke: red; stroke-width: 4"
+  />
+
+  <!--
+    多边形
+    points 属性定义多边形每个角的 x 和 y 坐标
+  -->
+  <polygon
+    points="650,70 590,258 740,128 560,128 710,248"
+    style="fill: lime; stroke: purple; stroke-width: 5; fill-rule: evenodd"
+  />
+
+  <!--
+    路径
+    下面的命令可用于路径数据：
+      M = moveto
+      L = lineto
+      H = horizontal lineto
+      V = vertical lineto
+      C = curveto
+      S = smooth curveto
+      Q = quadratic Belzier curve
+      T = smooth quadratic Belzier curveto
+      A = elliptical Arc
+      Z = closepath
+  -->
+  <path d="M 300 300 q 100 -250 250 0" stroke="pink" stroke-width="5" fill="none" />
+
+  <!--
+    滤镜
+  -->
+  <defs>
+    <filter id="Gaussian_Blur">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+    </filter>
+  </defs>
+  <circle cx="100" cy="430" r="50" fill="red" style="filter: url(#Gaussian_Blur)" />
+
+  <!-- 线性渐变 -->
+  <defs>
+    <linearGradient id="orange_red" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color: rgb(255, 255, 0); stop-opacity: 1" />
+      <stop offset="100%" style="stop-color: rgb(255, 0, 0); stop-opacity: 1" />
+    </linearGradient>
+  </defs>
+  <ellipse cx="400" cy="430" rx="85" ry="55" style="fill: url(#orange_red)" />
+
+  <!-- 径向渐变 -->
+  <defs>
+    <radialGradient id="grey_blue" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color: rgb(200, 200, 200); stop-opacity: 0" />
+      <stop offset="100%" style="stop-color: deepskyblue; stop-opacity: 1" />
+    </radialGradient>
+  </defs>
+  <ellipse cx="640" cy="430" rx="110" ry="100" style="fill: url(#grey_blue)" />
+
+  <!-- 文本 -->
+  <text x="100" y="600" style="font: 24px verdana bold; fill: #000">
+    可缩放矢量图形（Scalable Vector Graphics，SVG）
+  </text>
+</svg>

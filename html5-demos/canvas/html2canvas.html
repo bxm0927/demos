@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>使用 html2canvas 制作一张朋友圈海报</title>
+    <style>
+      img {
+        width: 100%;
+      }
+      .capture {
+        padding: 10px;
+        background: #f5da55;
+      }
+      .download {
+        display: block;
+        margin: 20px auto;
+        width: 40%;
+        line-height: 40px;
+        font-size: 14px;
+        text-decoration: none;
+        text-align: center;
+        color: #fff;
+        background-color: #337ab7;
+        border-radius: 4px;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="app">
+      <article v-if="!downloadUrl" id="capture" class="capture">
+        <h1 class="title">Hello world!</h1>
+        <h2 class="subtitle">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam, hic.
+        </h2>
+        <img src="./assets/test.jpg" alt="test" />
+      </article>
+      <img v-else :src="downloadUrl" alt="downloadUrl" />
+
+      <!--
+        提示：
+        - PC 浏览器能直接下载图片文件
+        - 手机浏览器一般也都能直接下载图片文件，并且支持长按保存
+        - 但微信浏览器不能直接下载（提示安装QQ浏览器），此时应该提示“请长按保存”
+      -->
+      <button v-if="isWeChat" class="download" @click="weChatTips">保存海报</button>
+      <a v-else :href="downloadUrl" class="download" download="poster.png">保存海报</a>
+    </main>
+
+    <script src="./assets/vue.min.js"></script>
+    <script src="./assets/html2canvas.min.js"></script>
+    <script>
+      const vm = new Vue({
+        el: '#app',
+        data() {
+          return {
+            isWeChat: false, // 是否是微信环境
+            downloadUrl: '', // 图片 url
+          }
+        },
+        mounted() {
+          this.html2canvas()
+          this.checkWeChat()
+        },
+        methods: {
+          html2canvas() {
+            const captureEl = document.querySelector('#capture')
+            html2canvas(captureEl).then((canvas) => {
+              this.downloadUrl = canvas.toDataURL()
+            })
+          },
+          checkWeChat() {
+            const ua = navigator.userAgent.toLowerCase()
+            if (ua.includes('micromessenger')) {
+              this.isWeChat = true
+            }
+          },
+          weChatTips() {
+            alert('请长按保存图片')
+          },
+        },
+      })
+    </script>
+  </body>
+</html>

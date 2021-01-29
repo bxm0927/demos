@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="500" height="300" style="border: 1px solid">
+      Your browser does not support the Canvas API, Please upgrade your browser.
+    </canvas>
+
+    <script type="module">
+      import { checkPointInPolyline } from './canvas.js'
+
+      window.addEventListener('load', () => {
+        const myCanvas = document.getElementById('myCanvas')
+        const ctx = myCanvas.getContext('2d')
+
+        ctx.fillRect(100, 100, 100, 100)
+        ctx.arc(350, 150, 50, 0, 2 * Math.PI)
+        ctx.fill()
+
+        myCanvas.addEventListener('click', (e) => {
+          const { offsetX, offsetY } = e
+          if (
+            checkPointInPolyline({ x: offsetX, y: offsetY }, [
+              [100, 100],
+              [200, 100],
+              [200, 200],
+              [100, 200],
+            ])
+          ) {
+            console.log('√ 在正方形中')
+          } else {
+            console.log('× 不在正方形中')
+          }
+        })
+
+        // 圆形和曲面形 采用近似匹配
+        myCanvas.addEventListener('click', (e) => {
+          const { offsetX, offsetY } = e
+          if (
+            checkPointInPolyline({ x: offsetX, y: offsetY }, [
+              [300, 100],
+              [400, 100],
+              [400, 200],
+              [300, 200],
+            ])
+          ) {
+            console.log('√ 在圆形中')
+          } else {
+            console.log('× 不在圆形中')
+          }
+        })
+      })
+    </script>
+  </body>
+</html>

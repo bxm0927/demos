@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background: #f5f5f5;
+      }
+      .canvas {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" class="canvas" width="400" height="600">
+      Your browser does not support the Canvas API, Please upgrade your browser.
+    </canvas>
+
+    <script>
+      const canvas = document.getElementById('canvas')
+      const ctx = canvas.getContext('2d')
+
+      // 创建一个矩形
+      const rectangle = new Path2D()
+      rectangle.rect(10, 10, 50, 50)
+
+      // 创建一个圆形
+      const circle = new Path2D()
+      circle.arc(100, 35, 25, 0, 2 * Math.PI)
+
+      // 使用 Path2D
+      ctx.stroke(rectangle)
+      ctx.fill(circle)
+    </script>
+  </body>
+</html>

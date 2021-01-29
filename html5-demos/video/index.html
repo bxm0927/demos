@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Demo</title>
+    <style>
+      .video {
+        width: 600px;
+        height: 337.5px;
+      }
+      dd {
+        line-height: 2.5;
+      }
+    </style>
+  </head>
+  <body>
+    <video id="myVideo" class="video" src="./assets/test.mp4" controls></video>
+
+    <dl>
+      <dt>常见方法：</dt>
+      <dd>
+        <button id="play">开始播放</button>
+        <button id="pause">暂停播放</button>
+        <button id="load">重新加载</button>
+      </dd>
+
+      <dt>常见属性：</dt>
+      <dd>
+        <button id="currentSrc">获得当前视频的 URL</button>
+        <button id="duration">获得视频的长度</button>
+        <button id="paused">视频是否已暂停播放</button>
+        <button id="ended">是否已播放结束</button>
+        <button id="getBuffRanges">获得视频已缓冲范围</button>
+      </dd>
+      <dd>
+        <button id="getCurTime">获得当前时间的位置</button>
+        <button id="setCurTime">把播放位置设置为 10 秒</button>
+      </dd>
+      <dd>
+        <button id="enableControls">显示控件</button>
+        <button id="disableControls">隐藏控件</button>
+        <button id="checkControls">检查控件状态</button>
+      </dd>
+      <dd>
+        <button id="enableAutoplay">启用自动播放</button>
+        <button id="disableAutoplay">禁用自动播放</button>
+        <button id="checkAutoplay">检查自动播放状态</button>
+      </dd>
+      <dd>
+        <button id="enableLoop">启用循环播放</button>
+        <button id="disableLoop">禁用循环播放</button>
+        <button id="checkLoop">检查循环播放状态</button>
+      </dd>
+      <dd>
+        <button id="enableMute">启用静音播放</button>
+        <button id="disableMute">静音静音播放</button>
+        <button id="checkMute">检查静音播放状态</button>
+      </dd>
+      <dd>
+        <button id="getVolume">获取视频当前音量</button>
+        <button onclick="setgetVolume(0.5)">把音量设置为 0.5</button>
+        <button onclick="setgetVolume(1)">把音量设置为 1.0</button>
+      </dd>
+      <dd>
+        <button id="getPlaySpeed">获得视频播放速度</button>
+        <button onclick="setPlaySpeed(0.5)">0.5 倍速</button>
+        <button onclick="setPlaySpeed(1)">1 倍速</button>
+        <button onclick="setPlaySpeed(2)">2 倍速</button>
+        <button onclick="setPlaySpeed(10)">10 倍速</button>
+      </dd>
+    </dl>
+
+    <script>
+      function $(id) {
+        return document.getElementById(id)
+      }
+
+      const myVideo = $('myVideo')
+
+      $('play').addEventListener('click', () => myVideo.play())
+      $('pause').addEventListener('click', () => myVideo.pause())
+      $('load').addEventListener('click', () => myVideo.load())
+      $('paused').addEventListener('click', () => alert(myVideo.paused))
+
+      $('currentSrc').addEventListener('click', () => alert(myVideo.src))
+      $('duration').addEventListener('click', () => alert(myVideo.duration))
+
+      $('getCurTime').addEventListener('click', () => alert(myVideo.currentTime))
+      $('setCurTime').addEventListener('click', () => (myVideo.currentTime = 10))
+
+      $('enableControls').addEventListener('click', () => {
+        myVideo.controls = true
+        myVideo.load()
+      })
+      $('disableControls').addEventListener('click', () => {
+        myVideo.controls = false
+        myVideo.load()
+      })
+      $('checkControls').addEventListener('click', () => alert(myVideo.controls))
+
+      $('getPlaySpeed').addEventListener('click', () => alert(myVideo.playbackRate))
+      function setPlaySpeed(playbackspeed) {
+        myVideo.playbackRate = playbackspeed
+      }
+
+      $('enableAutoplay').addEventListener('click', () => {
+        myVideo.autoplay = true
+        myVideo.load()
+      })
+      $('disableAutoplay').addEventListener('click', () => {
+        myVideo.autoplay = false
+        myVideo.load()
+      })
+      $('checkAutoplay').addEventListener('click', () => alert(myVideo.autoplay))
+
+      $('enableLoop').addEventListener('click', () => (myVideo.loop = true))
+      $('disableLoop').addEventListener('click', () => (myVideo.loop = false))
+      $('checkLoop').addEventListener('click', () => alert(myVideo.loop))
+
+      $('enableMute').addEventListener('click', () => (myVideo.muted = true))
+      $('disableMute').addEventListener('click', () => (myVideo.muted = false))
+      $('checkMute').addEventListener('click', () => alert(myVideo.muted))
+
+      $('getVolume').addEventListener('click', () => alert(myVideo.volume))
+      function setgetVolume(volumevalue) {
+        myVideo.volume = volumevalue
+      }
+
+      $('getBuffRanges').addEventListener('click', () => {
+        const buffered = myVideo.buffered
+        for (let i = 0; i < buffered.length; i++) {
+          console.log(buffered.start(i), buffered.end(i))
+        }
+      })
+
+      $('ended').addEventListener('click', () => alert(myVideo.ended))
+    </script>
+
+    <script>
+      myVideo.addEventListener('loadstart', () => console.log('loadstart'))
+      myVideo.addEventListener('durationchange', () => console.log('durationchange'))
+      myVideo.addEventListener('loadedmetadata', () => console.log('loadedmetadata'))
+      myVideo.addEventListener('loadeddata', () => console.log('loadeddata'))
+      myVideo.addEventListener('progress', () => console.log('progress'))
+      myVideo.addEventListener('canplay', () => console.log('canplay'))
+      myVideo.addEventListener('canplaythrough', () => console.log('canplaythrough'))
+
+      myVideo.addEventListener('play', () => console.log('play'))
+      myVideo.addEventListener('pause', () => console.log('pause'))
+      myVideo.addEventListener('ended', () => console.log('ended'))
+      myVideo.addEventListener('ratechange', () => console.log('ratechange'))
+      myVideo.addEventListener('waiting', () => console.log('waiting'))
+    </script>
+  </body>
+</html>

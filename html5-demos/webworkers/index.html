@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>计数: <output id="result"></output></p>
+    <button onclick="startWorker()">开始 Worker</button>
+    <button onclick="stopWorker()">停止 Worker</button>
+
+    <script>
+      var worker
+
+      function startWorker() {
+        if (typeof Worker === 'undefined') {
+          console.warn('Sorry, your browser does not support Web Workers.')
+          return
+        }
+
+        if (typeof worker === 'undefined') {
+          worker = new Worker('./demo_workers.js')
+        }
+
+        // Web Workers 事件监听器
+        worker.addEventListener('message', (event) => {
+          console.log('event: ', event)
+          document.querySelector('#result').innerHTML = event.data.count
+        })
+      }
+
+      // 终止 Web Worker
+      function stopWorker() {
+        worker.terminate()
+        worker = undefined
+      }
+    </script>
+  </body>
+</html>

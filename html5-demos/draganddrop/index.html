@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Drag and Drop Demo</title>
+    <style type="text/css">
+      .box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+        border: 1px solid #aaaaaa;
+      }
+      .img {
+        width: 50px;
+        height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <p>在两个矩形框之间拖放图像：</p>
+    <div id="box1" class="box" ondrop="drop(event)" ondragover="dragover(event)">
+      <img id="img" class="img" src="./followed.png" draggable="true" ondragstart="dragstart(event)" />
+    </div>
+    <div id="box2" class="box" ondrop="drop(event)" ondragover="dragover(event)"></div>
+
+    <script>
+      function dragstart(e) {
+        e.dataTransfer.setData('text/plain', e.target.id)
+      }
+
+      function dragover(e) {
+        e.preventDefault()
+      }
+
+      function drop(e) {
+        e.preventDefault()
+        const data = e.dataTransfer.getData('text/plain')
+        e.target.appendChild(document.getElementById(data))
+      }
+    </script>
+  </body>
+</html>

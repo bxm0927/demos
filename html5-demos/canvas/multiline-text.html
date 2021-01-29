@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas 绘制多行文本</title>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: #f5f5f5;
+      }
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="375" height="500">
+      Your browser does not support the Canvas API, Please upgrade your browser.
+    </canvas>
+
+    <script type="module">
+      import { drawMultilineText } from './canvas.js'
+
+      const myCanvas = document.getElementById('myCanvas')
+      const ctx = myCanvas.getContext('2d')
+
+      const text =
+        '何旁完出鱼青追通房刻，班但他过即许！年买么便教列印士才杰？雷莱体胡须窢外然画划工照曾临弄伦职。古睡显象依要？定着置形未牙游娘堂朝毫工血洋段。余沉布婚护北市界视野释视顾部遇句住张！戏字释余顾除照担？见席？'
+      ctx.font = '18px 微软雅黑'
+      ctx.textBaseline = 'top'
+      ctx.fillStyle = '#333'
+      drawMultilineText(ctx, text, 0, 0, 375, 3, 26)
+    </script>
+  </body>
+</html>
