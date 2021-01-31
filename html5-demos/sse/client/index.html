@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="result"></div>
+
+    <script>
+      ;(() => {
+        // 能力检测
+        if (!EventSource) {
+          console.warn('抱歉，您的浏览器不支持服务端推送事件（Server-sent events）.')
+          return
+        }
+
+        // 创建一个 EventSource 对象，用于接收服务器发送事件通知
+        const eventSource = new EventSource('http://localhost:3000/sse/test')
+        console.info('eventSource: ', eventSource)
+
+        // 当通往服务器的连接被打开
+        eventSource.addEventListener('open', (e) => {
+          console.info('open: ', e)
+        })
+        // 当错误发生
+        eventSource.addEventListener('error', (e) => {
+          console.error('error: ', e)
+        })
+        // 当接收到消息
+        eventSource.addEventListener('message', (e) => {
+          console.info('message: ', e)
+
+          const p = document.createElement('p')
+          p.innerHTML = e.data
+          document.querySelector('.result').appendChild(p)
+        })
+      })()
+    </script>
+  </body>
+</html>
