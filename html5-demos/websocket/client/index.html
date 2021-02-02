@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      ;(() => {
+        // 能力检测
+        if (!WebSocket) {
+          console.warn('抱歉，您的浏览器不支持 WebSocket.')
+          return
+        }
+
+        // 创建一个 WebSocket 对象
+        let ws = new WebSocket('ws://localhost:3000')
+
+        // WebSocket 连接已建立，可以使用 send() 方法向服务端发送数据
+        ws.addEventListener('open', (e) => {
+          console.info('WebSocket 连接已建立.', e)
+
+          // 每 3s 向服务器发送一次数据
+          setInterval(() => {
+            const sendData = JSON.stringify({ date: new Date() })
+            ws.send(sendData)
+          }, 3000)
+        })
+
+        // 客户端收到服务端数据时触发
+        ws.addEventListener('message', (e) => {
+          if (e.data === 'heartbeat') {
+            console.log('heartbeat')
+            return
+          }
+          console.log('WebSocket 收到来自服务端的数据: ', JSON.parse(e.data))
+        })
+
+        // 连接发生错误时触发
+        ws.addEventListener('error', (e) => {
+          console.info('WebSocket 连接发生错误', e)
+        })
+
+        // 关闭 websocket
+        ws.addEventListener('close', (e) => {
+          console.info('WebSocket 连接已关闭.', e)
+          ws.close()
+          ws = null
+        })
+      })()
+    </script>
+  </body>
+</html>

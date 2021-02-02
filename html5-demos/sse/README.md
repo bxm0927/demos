@@ -8,4 +8,4 @@ cd server
 npm start
 ```
 
-open http://localhost:5000/client/
+open http://localhost:5000/
