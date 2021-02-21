@@ -1,6 +1,6 @@
 /*
  * Canvas Utils
- * @see https://github.com/bxm0927/html5-demos
+ * @see https://github.com/bxm0927/demos/html5-demos
  * @Author: xiaoming.bai
  * @Date: 2021-01-17
  */
