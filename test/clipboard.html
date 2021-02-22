@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <!-- Target -->
+    <input id="foo" value="https://github.com/zenorocha/clipboard.js.git" />
+
+    <!-- Trigger -->
+    <button class="btn" data-clipboard-target="#foo">Copy</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+    <script>
+      var clipboard = new ClipboardJS('.btn')
+
+      clipboard.on('success', function (e) {
+        console.info('Action:', e.action)
+        console.info('Text:', e.text)
+        console.info('Trigger:', e.trigger)
+        e.clearSelection()
+      })
+
+      clipboard.on('error', function (e) {
+        console.error('Action:', e.action)
+        console.error('Trigger:', e.trigger)
+      })
+    </script>
+  </body>
+</html>
