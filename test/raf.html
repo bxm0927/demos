@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      #test2 {
+        position: absolute;
+        left: 0;
+        width: 150px;
+        height: 150px;
+        padding: 1em;
+        color: white;
+        font-size: larger;
+        background: blue;
+        border-radius: 10px;
+      }
+
+      #test3 {
+        margin-top: 250px;
+      }
+      #test3 div {
+        float: left;
+        width: 10px;
+        height: 10px;
+        background: orange;
+      }
+      .btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      }
+      .btn#stop {
+        left: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="test1">😃哈哈😃</h1>
+
+    <div id="test2">Click here to start animation</div>
+
+    <div id="test3"></div>
+
+    <script>
+      const element = document.getElementById('test1')
+      let start = undefined
+      let requestID = undefined
+
+      function step(timestamp) {
+        if (start === undefined) start = timestamp
+        const progress = timestamp - start
+
+        // 这里使用 `Math.min()` 确保元素刚好停在 500px 的位置
+        element.style.transform = `translateX(${Math.min(0.1 * progress, 500)}px)`
+
+        // 继续更新下一帧动画
+        requestID = window.requestAnimationFrame(step)
+
+        // 在 5s 后停止动画
+        if (progress > 5000) window.cancelAnimationFrame(requestID)
+      }
+      requestID = window.requestAnimationFrame(step)
+    </script>
+
+    <script>
+      const element2 = document.getElementById('test2')
+      let start2 = undefined
+
+      function step2(timestamp) {
+        if (timestamp === undefined) timestamp = Date.now()
+        if (start2 === undefined) start2 = timestamp
+
+        element2.style.left = (((timestamp - start2) / 10) % 500) + 'px'
+      }
+
+      element2.onclick = function () {
+        ;(function loop() {
+          step2()
+          window.requestAnimationFrame(loop, element2)
+        })()
+      }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+      function setp() {
+        $('<div />').appendTo('#test3')
+        requestAnimationFrame(setp)
+      }
+      requestAnimationFrame(setp)
+    </script>
+  </body>
+</html>
