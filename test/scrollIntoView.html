@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Element.scrollIntoView() Demo</title>
+
+    <style>
+      .oper {
+        position: sticky;
+        top: 10px;
+        padding: 20px;
+        text-align: center;
+        background: #ccc;
+      }
+      #box {
+        width: 500px;
+        height: 500px;
+        margin: 1000px auto;
+        background-color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="oper">
+      <button onclick="topAlign()">顶端对齐</button>
+      <button onclick="bottomAlign()">底端对齐</button>
+      <button onclick="centerAlignWithAnime()">居中对齐（动画效果）</button>
+      <button onclick="gotoTop()">回到顶部</button>
+      <button onclick="gotoBottom()">去到底部</button>
+    </div>
+
+    <p>page start!</p>
+    <div id="box"></div>
+    <p>page end!</p>
+
+    <script>
+      const boxEl = document.querySelector('#box')
+      const rootEl = document.getElementsByTagName('html')[0]
+
+      function topAlign() {
+        boxEl.scrollIntoView()
+      }
+      function bottomAlign() {
+        boxEl.scrollIntoView(false)
+      }
+      function centerAlignWithAnime() {
+        boxEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+      function gotoTop() {
+        if (rootEl.scrollIntoView) {
+          rootEl.scrollIntoView({ behavior: 'smooth' })
+        } else {
+          // Fix incompatible browser
+          document.documentElement.scrollTop = document.body.scrollTop = 0
+        }
+      }
+      function gotoBottom() {
+        if (rootEl.scrollIntoView) {
+          rootEl.scrollIntoView({ behavior: 'smooth', block: 'end' })
+        } else {
+          // Fix incompatible browser
+          const documentHeight = document.body.offsetHeight || document.body.scrollHeight
+          document.documentElement.scrollTop = document.body.scrollTop = documentHeight
+        }
+      }
+    </script>
+  </body>
+</html>
