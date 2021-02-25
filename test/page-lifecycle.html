@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>页面的生命周期</title>
+    <style>
+      body {
+        max-width: 680px;
+        margin: 0 auto;
+        color: #eef;
+        line-height: 1.5;
+        text-align: center;
+        background: rgb(34, 34, 51);
+      }
+      video {
+        width: 100%;
+        margin-top: 30px;
+        box-shadow: 0 10px 20px 10px #001;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Demo: Page Visibility API</h1>
+    <p>
+      这是 Page Visibility API 的演示，在此例中，当你切换到另一个标签时视频会暂停，
+      当你返回到当前标签时视频会再次播放，这可用于减少功耗或停止令人讨厌的背景音频。
+    </p>
+
+    <video id="video" src="../assets/videos/The+Village-Mobile.mp4" autoplay controls></video>
+
+    <h2>另外，在控制台还有页面的生命周期 API 的演示</h2>
+    <a href="/">跳转到其他页面</a>
+
+    <script>
+      const videoEl = document.getElementById('video')
+
+      // 监听页面可见属性的改变
+      // 如果页面是隐藏状态，则暂停视频；如果页面是展示状态，则播放视频
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          videoEl.pause()
+        } else {
+          videoEl.play()
+        }
+      })
+
+      // 当视频暂停，设置 title
+      videoEl.addEventListener('pause', () => {
+        document.title = '视频已暂停'
+      })
+
+      // 当视频播放，设置 title
+      videoEl.addEventListener('play', () => {
+        document.title = '视频正在播放'
+      })
+    </script>
+
+    <script>
+      // Page Visibility API
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          console.log('visibilitychange hidden', new Date().toJSON())
+        } else {
+          console.log('visibilitychange visible', new Date().toJSON())
+        }
+      })
+
+      // DOMContentLoaded
+      window.addEventListener('DOMContentLoaded', () => {
+        console.log('DOMContentLoaded', new Date().toJSON())
+      })
+
+      // beforeonload、load
+      window.addEventListener('beforeonload', () => {
+        console.log('beforeonload', new Date().toJSON())
+      })
+      window.addEventListener('load', () => {
+        console.log('load', new Date().toJSON())
+      })
+
+      // beforeunload、unload
+      window.addEventListener('beforeunload', (e) => {
+        console.log('beforeunload', new Date().toJSON())
+        e = e || window.event
+        e.returnValue = true
+      })
+      window.addEventListener('unload', () => {
+        console.log('unload', new Date().toJSON())
+      })
+
+      // pageshow、pagehide
+      window.addEventListener('pageshow', () => {
+        console.log('pageshow', new Date().toJSON())
+      })
+      window.addEventListener('pagehide', () => {
+        console.log('pagehide', new Date().toJSON())
+      })
+    </script>
+  </body>
+</html>
