@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IntersectionObserver 交叉观察器</title>
+
+    <style>
+      .outer {
+        width: 600px;
+        height: 600px;
+        overflow: auto;
+        background-color: gray;
+      }
+      .inner {
+        width: 100%;
+        height: 100px;
+        background-color: green;
+      }
+      p {
+        line-height: 200px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>IntersectionObserver 交叉观察器</h1>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, atque!</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, ipsum?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, atque!</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, ipsum?</p>
+
+    <div class="outer">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, atque!</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, ipsum?</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, atque!</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, ipsum?</p>
+      <div class="inner"></div>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, atque!</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, ipsum?</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, atque!</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, ipsum?</p>
+    </div>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, atque!</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, ipsum?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, atque!</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, ipsum?</p>
+
+    <script>
+      ;(function () {
+        const callback = (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              console.log('outer 元素可见')
+            } else {
+              console.log('outer 元素不可见')
+            }
+          })
+        }
+
+        const observer = new IntersectionObserver(callback)
+
+        const target = document.querySelector('.outer')
+        observer.observe(target)
+      })()
+    </script>
+
+    <script>
+      ;(function () {
+        const callback = (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              console.log('inner 元素可见')
+            } else {
+              console.log('inner 元素不可见')
+            }
+          })
+        }
+
+        const options = {
+          root: document.querySelector('.outer'),
+          rootMargin: '0px',
+          threshold: 0.5,
+        }
+
+        const observer = new IntersectionObserver(callback, options)
+
+        const target = document.querySelector('.inner')
+        observer.observe(target)
+      })()
+    </script>
+  </body>
+</html>
