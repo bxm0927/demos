@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notification API</title>
+  </head>
+  <body>
+    <h1>Notification API</h1>
+
+    <script>
+      ;(function () {
+        // 检查浏览器是否支持
+        if (!('Notification' in window)) {
+          console.log('This browser does not support desktop notification')
+          return
+        }
+
+        // 请求权限
+        Notification.requestPermission((permission) => {
+          // 权限状态：granted 允许、denied 拒绝、default 关闭
+          // 仅当值为 granted 时才会发送通知
+          console.info('权限状态: ', permission)
+
+          const options = {
+            title: '这里是通知的标题（title）部分，最多展示一行，超出省略。',
+            body: '这里是通知的正文（body）部分，支持换行，最多展示两行，超出省略。',
+            tag: 'Tag',
+            icon: 'http://ie-web-notifications.github.io/logo.png',
+          }
+
+          // 发送通知
+          const notification = new Notification(options.title, {
+            body: options.body,
+            tag: options.tag,
+            icon: options.icon,
+          })
+          console.info(notification)
+
+          // 事件监听
+          // 当用户点击通知时触发
+          notification.onclick = (e) => {
+            console.log('notification.onclick', e)
+            window.open('https://www.baidu.com/')
+            notification.close() // 主动关闭通知
+          }
+          // 当通知被显示给用户时触发
+          notification.onshow = (e) => {
+            console.log('notification.onshow', e)
+          }
+          // 当通知被关闭时触发
+          notification.onclose = (e) => {
+            console.log('notification.onclose', e)
+          }
+          // 当通知发生错误的时候触发，这通常是因为通知由于某些原因而无法显示
+          notification.onerror = (e) => {
+            console.log('notification.onerror', e)
+          }
+        })
+      })()
+    </script>
+  </body>
+</html>
