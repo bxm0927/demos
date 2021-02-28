@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FullScreen API</title>
+    <style>
+      body {
+        max-width: 680px;
+        margin: 0 auto;
+        color: #eef;
+        line-height: 1.5;
+        text-align: center;
+        background: rgb(34, 34, 51);
+      }
+      video {
+        width: 100%;
+        margin-top: 30px;
+        box-shadow: 0 10px 20px 10px #001;
+      }
+      .outer-box {
+        width: 500px;
+        height: 300px;
+        margin: 30px auto;
+        background-color: green;
+      }
+      .inner-box {
+        width: 300px;
+        height: 100px;
+        margin: 30px auto;
+        background-color: pink;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Demo: FullScreen API</h1>
+    <p>
+      这是 FullScreen API 的演示，在此例中，网页中显示了一个视频。 按下 Enter
+      键让用户在视频的窗口显示和全屏显示之间切换。
+    </p>
+
+    <video id="video" src="../assets/videos/The+Village-Mobile.mp4" autoplay muted controls></video>
+
+    <div class="outer-box">
+      <p>outer-box</p>
+      <button id="outerBtn">全屏展示</button>
+
+      <div class="inner-box">
+        <p>inner-box</p>
+        <button id="innerBtn">全屏展示</button>
+      </div>
+    </div>
+
+    <script>
+      const outerBox = document.querySelector('.outer-box')
+      const outerBtn = document.querySelector('#outerBtn')
+      const innerBox = document.querySelector('.inner-box')
+      const innerBtn = document.querySelector('#innerBtn')
+      const video = document.querySelector('#video')
+
+      outerBtn.addEventListener('click', () => {
+        outerBox.requestFullscreen()
+      })
+      innerBtn.addEventListener('click', () => {
+        innerBox.requestFullscreen()
+      })
+
+      document.addEventListener('keypress', (e) => {
+        console.log('e: ', e);
+        if (e.keyCode !== 13) return
+
+        // 检查当前是否有节点处于全屏状态
+        if (!document.fullscreenElement) {
+          video.requestFullscreen()
+          return
+        }
+
+        if (document.exitFullscreen) {
+          document.exitFullscreen()
+        }
+      })
+
+      document.addEventListener('fullscreenchange', function () {
+        console.log('当前被全屏展示的元素: ', document.fullscreenElement)
+      })
+      document.addEventListener('fullscreenerror', (e) => {
+        console.error('全屏显示时出错: ', e)
+      })
+    </script>
+  </body>
+</html>

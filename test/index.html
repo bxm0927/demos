@@ -2,113 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      h3::after {
-        content: 'rocks!';
+      img {
+        margin-top: 3000px;
       }
     </style>
   </head>
   <body>
-    <div>
-      <div id="div" style="color: red">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo facilis, repellendus voluptas
-        dolores consequuntur ex id pariatur dolore dolorem recusandae. Minus non quas veniam saepe
-        officia molestiae laboriosam sed asperiores sit, eligendi architecto ex placeat corrupti
-        eaque. Quam obcaecati saepe reprehenderit maxime cum facilis blanditiis dicta, quo soluta,
-        recusandae esse!
-      </div>
-    </div>
-    <p id="p" style="color: green">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis temporibus, veritatis ratione
-      beatae possimus aut ut reiciendis alias voluptatum qui dicta sunt laudantium unde modi?
-      Expedita nisi sit veritatis animi dolor.
-    </p>
-    <span id="span" style="color: blue"
-      >Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis iure molestiae nostrum
-      consequuntur ipsum rem itaque! Numquam nemo repellat sint omnis vitae quisquam asperiores odit
-      provident sunt quae necessitatibus cumque ea ut.</span
-    >
+    <img
+      src="https://picsum.photos/seed/picsum/200/300"
+      loading="lazy"
+      alt="lazy"
+      width="200" height="200"
+    />
 
-    <script>
-      console.log(document.querySelector('#div').getClientRects())
-      console.log(document.querySelector('#p').getClientRects())
-      console.log(document.querySelector('#span').getClientRects())
-
-      document.querySelector('#div').style.display = 'inline'
-      console.log(document.querySelector('#div').getClientRects())
-      const rect = document.querySelector('#div').getClientRects()
-
-      if (rect.length > 3) {
-
-      }
-
-      function handleTxt() {
-        var dom = document.querySelectorAll('.quan_feed_desc[data-shareid]')
-
-        for (var i = 0, len = dom.length; i < len; i++) {
-          var shareid = dom[i].dataset.shareid
-          if (typeof shareid == 'undefined') continue
-          var obj = {}
-          for (var j = feedObj.openText, len2 = feedObj.feedlist.length; j < len2; j++) {
-            //openText，记录上次计算到哪里了。
-            if (feedObj.feedlist[j].shareid == shareid) {
-              obj = feedObj.feedlist[j]
-              break
-            }
-          }
-          var rect = dom[i].getClientRects()
-          var h = getLength(rect)
-          if (h < 3 || !obj.showTxt) {
-            dom[i].removeAttribute('data-shareid')
-            continue
-          }
-          var tl = 0,
-            t = obj.showTxt
-          dom[i].querySelectorAll('.dot').forEach(function (el) {
-            el.style.display = 'inline-block' //把点点和展开放开，为后面计算更真实
-          })
-          var showtxt = dom[i].querySelector('.showtxt')
-          while (h > 3) {
-            var step = 1
-            if (/<br\/>$/.test(t)) {
-              //回退的时候，如果碰到换行要整体替换
-              step = 5
-            }
-            t = t.slice(0, -step)
-            showtxt.innerHTML = t
-            h = getLength(dom[i].getClientRects())
-            tl += step
-          }
-          obj.hideTxt = obj.showTxt.slice(obj.showTxt.length - tl)
-          if (obj.hideTxt) {
-            var height = dom[i].querySelector('.quan_feed_more').offsetWidth //页面展开更多的大小
-            obj.hideTxt +=
-              rect[rect.length - 1].width > dom[i].offsetWidth - height
-                ? '<span style="display:inline-block;width:' + height + 'px"></span>'
-                : '' //页面收起和正文重叠
-          }
-          obj.showTxt = t
-          obj.txtDone = 1
-          dom[i].removeAttribute('data-shareid')
-        }
-
-        feedObj.openText = feedObj.feedlist.length
-      }
-
-      function getLength(list) {
-        var line = 0,
-          lastBottom = 0
-        for (var i = 0, len = list.length; i < len; i++) {
-          if (list[i].bottom == lastBottom) {
-            return
-          }
-          lastBottom = list[i].bottom
-          line++
-        }
-        return line
-      }
-    </script>
+    <script></script>
   </body>
 </html>
