@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File API</title>
+    <style>
+      .beautify-wrapper button {
+        padding: 8px 20px;
+        color: #fff;
+        background-color: #409eff;
+        border: 1px solid #409eff;
+        border-radius: 4px;
+        outline: none;
+        cursor: pointer;
+      }
+      .dropbox-wrapper .dropbox {
+        width: 400px;
+        height: 200px;
+        text-align: center;
+        border: 2px dashed #616778;
+        border-radius: 15px;
+        cursor: pointer;
+      }
+      .preview-wrapper .preview-img {
+        display: block;
+        width: 400px;
+        margin-top: 10px;
+        border: 2px solid;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <section class="download-wrapper">
+      <h2>下载文件</h2>
+      <a href="/assets/images/empty-photo.png" download="filename">点击下载</a>
+    </section>
+
+    <section class="upload-wrapper">
+      <h2>访问被选择的文件，并上传到服务器</h2>
+      <input type="file" accept="image/*" multiple />
+      <button type="button">点击上传</button>
+    </section>
+
+    <script>
+      ;(() => {
+        const fileInput = document.querySelector(".upload-wrapper input[type='file']")
+        const upload = document.querySelector(".upload-wrapper button[type='button']")
+
+        fileInput.addEventListener('change', (e) => {
+          const files = e.target.files
+          console.log('files: ', files)
+          console.log(`用户选择了 ${files.length} 个文件`)
+
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i]
+            console.log('文件名称: ', file.name)
+            console.log('文件大小: ', file.size)
+            console.log('文件类型: ', file.type)
+          }
+        })
+
+        upload.addEventListener('click', () => {
+          for (let i = 0; i < fileInput.files.length; i++) {
+            sendFile(fileInput.files[i])
+          }
+        })
+
+        function sendFile(file) {
+          const xhr = new XMLHttpRequest()
+          const formData = new FormData()
+
+          xhr.open('POST', '/upload')
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+              console.log(xhr.responseText) // handle response.
+            }
+          }
+          formData.append('myFile', file)
+          // Initiate a multipart/form-data upload
+          xhr.send(formData)
+
+          // if you use Fetch API
+          // fetch('/upload', { method: 'POST', body: formData })
+        }
+      })()
+    </script>
+
+    <section class="beautify-wrapper">
+      <h2>美化 file input 元素</h2>
+      <input type="file" multiple style="display: none" />
+      <button type="button">点击上传</button>
+    </section>
+
+    <script>
+      ;(() => {
+        const uploadElement = document.querySelector('.beautify-wrapper button')
+        uploadElement.addEventListener('click', function (e) {
+          document.querySelector('.beautify-wrapper input').click()
+        })
+      })()
+    </script>
+
+    <section class="preview-wrapper">
+      <h2>预览用户选择的图片</h2>
+      <input id="previewFile" type="file" multiple accept="image/*" webkitdirectory />
+    </section>
+
+    <script>
+      ;(() => {
+        const previewFile = document.querySelector('#previewFile')
+        const previewWrapper = document.querySelector('.preview-wrapper')
+
+        previewFile.addEventListener('change', (e) => {
+          for (let i = 0; i < e.target.files.length; i++) {
+            handleFile(e.target.files[i])
+          }
+        })
+
+        function handleFile(file) {
+          // 在这里，你还可以对文件类型、文件大小进行校验
+          const imageType = /^image\//
+          if (!imageType.test(file.type)) return // 只接受图片文件
+          if (file.size > 10 * 1024 * 1024) return // 不能大于 10M
+
+          const reader = new FileReader()
+          reader.readAsDataURL(file)
+          reader.addEventListener('load', (e) => {
+            const img = document.createElement('img')
+            img.classList.add('preview-img')
+            img.alt = file.name
+            img.src = e.target.result // 获取一个 Base64 格式的图片地址
+            previewWrapper.appendChild(img)
+          })
+
+          // 这里你也可以使用 URL.createObjectURL(file) 来生成 data URL
+          // img.src = URL.createObjectURL(file)
+          // img.onload = function () {
+          //   URL.revokeObjectURL(this.src)
+          // }
+        }
+      })()
+    </script>
+
+    <section class="dropbox-wrapper">
+      <h2>拖拽上传文件</h2>
+      <div id="dropbox" class="dropbox">
+        <p>Drop your files here!</p>
+      </div>
+    </section>
+
+    <script>
+      ;(() => {
+        const dropbox = document.querySelector('#dropbox')
+
+        dropbox.addEventListener('paste', (e) => {
+          console.log('e: ', e)
+          // let file = event.originalEvent.clipboardData.files[0]
+        })
+
+        dropbox.addEventListener('dragenter', (e) => {
+          e.stopPropagation()
+          e.preventDefault()
+        })
+        dropbox.addEventListener('dragover', (e) => {
+          e.stopPropagation()
+          e.preventDefault()
+        })
+        dropbox.addEventListener('drop', (e) => {
+          e.stopPropagation()
+          e.preventDefault()
+          const files = e.dataTransfer.files
+          console.log('files: ', files)
+        })
+      })()
+    </script>
+  </body>
+</html>
